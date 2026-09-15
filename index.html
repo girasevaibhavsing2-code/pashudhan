@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>पशुधन बाजार | जनावरांची खरेदी-विक्री</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- CSS Link -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <header class="top-bar">
+    <span><i class="fa-solid fa-bullhorn"></i> महाराष्ट्रातील सर्व ३६ जिल्हे आणि ३५८ तालुक्यांमधील शेतकऱ्यांचा विश्वासू पशुधन मंच!</span>
+  </header>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-cow"></i></div>
+        <div>
+          <span class="logo-text">पशुधन<span>बाजार</span></span>
+          <p class="logo-sub">खरेदी व विक्री केंद्र</p>
+        </div>
+      </a>
+      
+      <button class="btn btn-primary" id="openModalBtn">
+        <i class="fa-solid fa-circle-plus"></i>
+        <span>जनावर विका (मोफत जाहिरात)</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <span class="badge"><i class="fa-solid fa-shield-halved"></i> १००% मोफत • थेट शेतकरी ते शेतकरी व्यवहार • दलालांशिवाय</span>
+      <h1>आपल्या हक्काचा <span>पशुधन बाजार</span></h1>
+      <p>आपल्या जिल्ह्यातील व तालुक्यातील जनावरे घरबसल्या शोधा किंवा स्वतःच्या जनावराची मोफत नोंदणी करा.</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    
+    <!-- Filter Card -->
+    <div class="card filter-card">
+      <div class="search-row">
+        <div class="search-input-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="searchInput" placeholder="जात, गाव/वाडी, शेतकरी नाव किंवा इतर काहीही शोधा...">
+        </div>
+      </div>
+      
+      <!-- Location & Status Filters -->
+      <div class="filter-controls">
+        <div class="form-group">
+          <label><i class="fa-solid fa-location-dot"></i> १. जिल्हा निवडा (सर्व ३६)</label>
+          <select id="districtFilter">
+            <option value="all">सर्व जिल्हे (महाराष्ट्र)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-map-location-dot"></i> २. तालुका निवडा</label>
+          <select id="talukaFilter" disabled>
+            <option value="all">आधी जिल्हा निवडा</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-filter"></i> किंमत मर्यादा</label>
+          <select id="priceFilter">
+            <option value="all">सर्व किमती</option>
+            <option value="under25k">₹ २५,००० च्या खाली</option>
+            <option value="25k-60k">₹ २५,००० - ₹ ६०,०००</option>
+            <option value="above60k">₹ ६०,००० च्या पुढे</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-tags"></i> स्थिती (Status)</label>
+          <select id="statusFilter">
+            <option value="available">फक्त उपलब्ध (विक्रीसाठी)</option>
+            <option value="all">सर्व (उपलब्ध + विकलेली)</option>
+            <option value="sold">फक्त विकलेली</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Categories Pills -->
+      <div class="category-pills">
+        <button class="pill active" data-category="all">
+          <i class="fa-solid fa-border-all"></i> सर्व जनावरे
+        </button>
+        <button class="pill" data-category="गाय">
+          <i class="fa-solid fa-cow"></i> गाय
+        </button>
+        <button class="pill" data-category="म्हैस">
+          <i class="fa-solid fa-water"></i> म्हैस
+        </button>
+        <button class="pill" data-category="बैल">
+          <i class="fa-solid fa-shield-dog"></i> बैल
+        </button>
+        <button class="pill" data-category="शेळी/मेंढी">
+          <i class="fa-solid fa-feather"></i> शेळी / मेंढी
+        </button>
+      </div>
+    </div>
+
+    <!-- Listings Header -->
+    <div class="listings-header">
+      <h2>उपलब्ध नोंदी (<span id="resultsCount">0</span>)</h2>
+      <button class="btn btn-outline btn-sm" id="resetFiltersBtn">
+        <i class="fa-solid fa-arrow-rotate-left"></i> फिल्टर रीसेट करा
+      </button>
+    </div>
+
+    <!-- Animals Grid -->
+    <div class="animals-grid" id="animalsContainer">
+      <!-- Cards JS द्वारे लोड होतील -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="empty-state hidden">
+      <i class="fa-solid fa-cow fa-bounce"></i>
+      <h3>कोणतीही नोंद सापडली नाही</h3>
+      <p>शोध शब्द किंवा जिल्हा/तालुका बदलून पुन्हा प्रयत्न करा.</p>
+    </div>
+
+  </main>
+
+  <!-- Modal (जनावर नोंदणी फॉर्म) -->
+  <div class="modal-overlay hidden" id="postModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3><i class="fa-solid fa-plus-circle"></i> जनावराची मोफत नोंदणी करा</h3>
+          <p>अचूक माहिती भरा जेणेकरून खरेदीदार थेट संपर्क करू शकतील.</p>
+        </div>
+        <button class="modal-close-btn" id="closeModalBtn">&times;</button>
+      </div>
+      
+      <form id="addAnimalForm" class="modal-body">
+        
+        <!-- प्राण्याचा प्रकार आणि जात -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>प्राण्याचा प्रकार *</label>
+            <select id="modalCategory" required>
+              <option value="गाय">गाय</option>
+              <option value="म्हैस">म्हैस</option>
+              <option value="बैल">बैल</option>
+              <option value="शेळी/मेंढी">शेळी / मेंढी</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>जात (Breed) *</label>
+            <input type="text" id="modalBreed" placeholder="उदा. खिलार, जर्सी, मुऱ्हा, गावरान" required>
+          </div>
+        </div>
+
+        <!-- वय आणि वेत (बैल निवडल्यास वेत लपवले जाईल) -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>वय / दात *</label>
+            <input type="text" id="modalAge" placeholder="उदा. ४ दाती / ३ वर्षे" required>
+          </div>
+          <div class="form-group" id="lactationGroup">
+            <label>वेत (Lactation / कितवे वेत)</label>
+            <input type="text" id="modalLactation" placeholder="उदा. २ रे वेत / गाभण आहे">
+          </div>
+        </div>
+
+        <!-- दूध आणि किंमत (बैल निवडल्यास दूध क्षमता लपवली जाईल) -->
+        <div class="form-row">
+          <div class="form-group" id="milkGroup">
+            <label>दूध क्षमता (प्रति दिवस लिटर)</label>
+            <input type="text" id="modalMilk" placeholder="उदा. १२ लिटर">
+          </div>
+          <div class="form-group">
+            <label>अपेक्षित किंमत (₹) *</label>
+            <input type="number" id="modalPrice" placeholder="उदा. 45000" required>
+          </div>
+        </div>
+
+        <!-- जिल्हा, तालुका (कॅस्केडिंग) आणि गाव (टाईप इनपुट) -->
+        <div class="form-row form-row-3">
+          <div class="form-group">
+            <label>१. जिल्हा *</label>
+            <select id="modalDistrict" required>
+              <option value="">जिल्हा निवडा</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>२. तालुका *</label>
+            <select id="modalTaluka" required disabled>
+              <option value="">आधी जिल्हा निवडा</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>३. गाव / वाडी / वस्ती *</label>
+            <input type="text" id="modalVillage" placeholder="उदा. दोंडाईचा / पाडा नाव" required>
+          </div>
+        </div>
+
+        <!-- शेतकरी नाव आणि फोन -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>शेतकऱ्याचे नाव *</label>
+            <input type="text" id="modalSeller" placeholder="आपले पूर्ण नाव" required>
+          </div>
+          <div class="form-group">
+            <label>मोबाईल नंबर *</label>
+            <input type="tel" id="modalPhone" placeholder="उदा. 9876543210" pattern="[0-9]{10}" required>
+          </div>
+        </div>
+
+        <!-- गॅलरी किंवा कॅमेऱ्यातून फोटो अपलोड -->
+        <div class="form-group">
+          <label><i class="fa-solid fa-camera"></i> जनावराचा फोटो अपलोड करा (गॅलरीमधून)</label>
+          <input type="file" id="modalImageFile" accept="image/*" class="file-input">
+          
+          <div id="imagePreviewBox" class="image-preview hidden">
+            <img id="previewImg" src="" alt="निवडलेला फोटो">
+            <button type="button" id="removePhotoBtn" class="remove-photo-btn"><i class="fa-solid fa-trash"></i> फोटो बदला</button>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="cancelModalBtn">रद्द करा</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> जाहिरात प्रकाशित करा</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3>पशुधन बाजार</h3>
+        <p>महाराष्ट्रातील सर्व शेतकरी बांधवांसाठी हक्काचे डिजिटल मार्केटप्लेस.</p>
+      </div>
+      <div class="footer-col">
+        <h4>मार्गदर्शक सूचना</h4>
+        <ul>
+          <li>जनावर विकले गेल्यास लगेच <strong>"विकले गेले"</strong> मार्क करा.</li>
+          <li>पैसे पाठवण्यापूर्वी जनावराची प्रत्यक्ष खात्री करा.</li>
+          <li>कोणत्याही मध्यस्थाशिवाय थेट संवाद साधा.</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>संपर्क</h4>
+        <p><i class="fa-solid fa-envelope"></i> help@pashudhanbazar.in</p>
+        <p><i class="fa-solid fa-phone"></i> +91 98000 12345</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 पशुधन बाजार | शेतकऱ्यांच्या सेवेसाठी समर्पित.</p>
+    </div>
+  </footer>
+
+  <!-- Script Link -->
+  <script src="script.js"></script>
+</body>
+</html>
